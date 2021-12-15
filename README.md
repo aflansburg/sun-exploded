@@ -93,3 +93,6 @@ Adding a reverse proxy would be interesting - maybe Varnish for both reverse pro
 ## Why is called the sun exploded
 
 I had an idea for a fun/learning project based on this article and the associated XKCD cartoon.
+
+![Frequentists vs Bayesians](https://imgs.xkcd.com/comics/frequentists_vs_bayesians.png)
+[Bayesian vs Frequentist A/B Testing: What's the difference?](https://cxl.com/blog/bayesian-frequentist-ab-testing/)
