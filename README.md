@@ -3,9 +3,11 @@
 This is a mono-repo called `sun-exploded` containing:
 
 - Backend: `rails-dock-api/`
-  - Rails 6.1.4 API Only
-- Frontend `svelte-vite-frontend-dock`
-  - Vite + Svelte
+  - Rails 6.1.4 API Only <-------------------|
+- Frontend `svelte-vite-frontend-dock`       |
+  - Vite + Svelte                            |
+- Database:                                  |
+  - Postgres v14 <---------------------------|
 
 ## Building
 
