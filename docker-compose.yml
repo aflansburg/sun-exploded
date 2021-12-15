@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  web-api:
+    build:
+      context: ./rails-dock-api
+      dockerfile: Dockerfile
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - ./rails-dock-api:/usr/src/app
+    ports:
+      - 3002:3000
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+  web-frontend:
+    build:
+      context: ./svelte-vite-frontend-dock
+      dockerfile: Dockerfile
+    volumes:
+      - ./svelte-vite-frontend-dock:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3001:3000
+      - 24678:24678
+    tty: true
+    stdin_open: true
+    depends_on:
+      - web-api
+  db:
+    image: postgres:14-alpine
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: rails_dock_api_dev
+#     env_file:
+#       - ./.env.db
+#   redis:
+#     image: redis:alpine
+#     ports:
+#       - 6379:6379
+#   # nginx:
+#   #   build: ./services/nginx
+#   #   volumes:
+#   #     - static_volume:/home/app/api/static
+#   #   ports:
+#   #     - 1337:80
+#   #   depends_on:
+#   #     - web
+# volumes:
+#   postgres_data_prod:
+#   static_volume:

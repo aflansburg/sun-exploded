@@ -1,0 +1,27 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+
+development:
+  <<: *default
+  host: db
+  database: rails_dock_api_dev
+  username: postgres
+  password: password
+  pool: 5
+
+test:
+  <<: *default
+  host: db
+  database: rails_dock_db_test
+  username: postgres
+  password: password
+
+production:
+  <<: *default
+  database: <%= ENV['PG_DBNAME'] %>
+  pool: <%= ENV['PG_POOL'] %>
+  host: <%= ENV['PG_HOST'] %>
+  port: <%= ENV['PG_PORT'] %>
+  username: <%= ENV['PG_USER'] %>
+  password: <%= ENV['PG_OPEN_SESAME'] %>
