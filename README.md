@@ -4,9 +4,9 @@ This is a mono-repo called `sun-exploded` containing:
 
 - Backend: `rails-dock-api/`
   - Rails 6.1.4 API Only <-------------------|
-- Frontend `svelte-vite-frontend-dock`       |
-  - Vite + Svelte                            |
-- Database:                                  |
+- Frontend `svelte-vite-frontend-dock` |
+  - Vite + Svelte |
+- Database: |
   - Postgres v14 <---------------------------|
 
 ## Building
@@ -19,6 +19,12 @@ This is a mono-repo called `sun-exploded` containing:
   - Check out the `docker-compose.yml` file to see what ports are exposed
 
 ^ Change `3001` to whatever you need it to be on your local
+
+## To get a Rails console
+
+```
+docker-compose run web-api bin/rails c
+```
 
 ## It works?
 
