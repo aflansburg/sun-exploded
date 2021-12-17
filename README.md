@@ -17,8 +17,23 @@ This is a mono-repo called `sun-exploded` containing:
   - `docker-compose -f docker-compose.yml up --build`
   - You can add the `-d` flag if you prefer to run detached
   - Check out the `docker-compose.yml` file to see what ports are exposed
+- Seed Db if you like first via:
+  ```
+  docker-compose -f docker-compose-yml build && \
+  docker-compose run web-api bundle exec rails db:seed && \
+  docker-compose up
+  ```
 
 ^ Change `3001` to whatever you need it to be on your local
+
+## Bundle Install & Running migrations
+
+- If you added a new gem and/or migration it's best to just build the image which will run both `bundle` and `db:migrate`, but if you must run a separate migration or bundle install
+  ```
+  docker-compose down # or kill the session if not running detached with `-d`
+  docker-compose run web-api bundle exec rails db:migrate
+  docker-compose run web-api bundle install
+  ```
 
 ## To get a Rails console
 
@@ -97,6 +112,8 @@ I may or may not use `docker-compose.yml` in production - it would be the easy w
 I may use the Ruby `graphql` gem over REST to add more beneficial output from this fun/learning project.
 
 Adding a reverse proxy would be interesting - maybe Varnish for both reverse proxying and HTTP caching?
+
+Using domain we bought: sunexploded.com
 
 ## Why is called the sun exploded
 
