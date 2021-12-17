@@ -7,7 +7,7 @@ class JsonWebToken
       JWT.decode(token, nil,
                  true, # Verify the signature of this token
                  algorithm: algorithm,
-                 iss: Rails.application.config.x.auth0.issuerUri,
+                 iss: issuer,
                  verify_iss: true,
                  aud: Rails.application.config.x.auth0.audience,
                  verify_aud: true) do |header|

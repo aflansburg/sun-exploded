@@ -2,6 +2,10 @@ class UsersController < ApplicationController
   before_action :authorize!
 
   def index
+    render json: { message:
+       "This is the users index response - it is authenticated using jwt + Auth0. " \
+       "We aren't going to show all users to any authenticated users however."
+      }
   end
 
   def show
