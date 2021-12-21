@@ -1,65 +1,80 @@
-<script lang="ts">
-  import logo from './assets/svelte.png'
-  import Counter from './lib/Counter.svelte'
+<script>
+  import { onMount } from "svelte";
+  import auth from "./authService";
+  import { isAuthenticated, user, user_scenarios, scenarios } from "./store";
+  // import TaskItem from "./components/TaskItem.svelte";
+
+  let auth0Client;
+  let newTask;
+
+  onMount(async () => {
+    auth0Client = await auth.createClient();
+
+    isAuthenticated.set(await auth0Client.isAuthenticated());
+    user.set(await auth0Client.getUser());
+  });
+
+  function login() {
+    auth.loginWithPopup(auth0Client);
+  }
+
+  function logout() {
+    auth.logout(auth0Client);
+  }
+
+  // function addItem() {
+  //   let newTaskObject = {
+  //     id: genRandom(),
+  //     description: newTask,
+  //     completed: false,
+  //     user: $user.email
+  //   };
+
+  //   console.log(newTaskObject);
+
+  //   let updatedTasks = [...$tasks, newTaskObject];
+
+  //   tasks.set(updatedTasks);
+
+  //   newTask = "";
+  // }
+
+  // function genRandom(length = 7) {
+  //   var chars =
+  //     "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  //   var result = "";
+  //   for (var i = length; i > 0; --i)
+  //     result += chars[Math.round(Math.random() * (chars.length - 1))];
+  //   return result;
+  // }
 </script>
 
 <main>
-  <img src={logo} alt="Svelte Logo" />
-  <h1>Hello Typescript!</h1>
+  {#if $isAuthenticated}
+  <p>Welcome:&nbsp;{$user.name} ({$user.email})</p>
+  {/if}
 
-  <Counter />
-
-  <p>
-    Visit <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte
-    apps.
-  </p>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme">SvelteKit</a> for
-    the officially supported framework, also powered by Vite!
-  </p>
+  {#if !$isAuthenticated}
+    <a
+      class="btn btn-primary btn-lg mr-auto ml-auto"
+      href="/#"
+      role="button"
+      on:click="{login}"
+    >Log In</a>
+  {:else}
+    <h1>Logged in!</h1>
+    <a
+    class="btn btn-primary btn-lg mr-auto ml-auto"
+    href="/#"
+    role="button"
+    on:click="{logout}"
+  >Log Out</a>
+    <p>{JSON.stringify(scenarios)}</p>
+  {/if}
 </main>
 
-<style>
-  :root {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+<!-- <style>
+  #main-application {
+    margin-top: 50px;
   }
-
-  main {
-    text-align: center;
-    padding: 1em;
-    margin: 0 auto;
-  }
-
-  img {
-    height: 16rem;
-    width: 16rem;
-  }
-
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4rem;
-    font-weight: 100;
-    line-height: 1.1;
-    margin: 2rem auto;
-    max-width: 14rem;
-  }
-
-  p {
-    max-width: 14rem;
-    margin: 1rem auto;
-    line-height: 1.35;
-  }
-
-  @media (min-width: 480px) {
-    h1 {
-      max-width: none;
-    }
-
-    p {
-      max-width: none;
-    }
-  }
-</style>
+</style> -->

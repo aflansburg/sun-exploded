@@ -1,9 +1,10 @@
 class UsersController < ApplicationController
   before_action :authorize!
+  before_action :can_see_all_users!, only: [:admin]
 
-  def index
+  def admin
     render json: { message:
-       "This is the users index response - it is authenticated using jwt + Auth0. " \
+       "This is the users admin response - it is authenticated using jwt + Auth0. " \
        "We aren't going to show all users to any authenticated users however."
       }
   end

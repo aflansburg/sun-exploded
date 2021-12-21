@@ -9,6 +9,11 @@ class ApplicationController < ActionController::API
     @token ||= result
   end
 
+  # may refactor to is_admin, etc.
+  def can_see_all_users!
+    check_permissions(@token, 'read:all-users')
+  end
+
   private
 
   def verify(token)
@@ -22,5 +27,15 @@ class ApplicationController < ActionController::API
     return headers['Authorization'].split.last if headers['Authorization'].present?
 
     nil
+  end
+
+  def check_permissions(token, permission)
+    permissions = token['scope'] || []
+    permissions = permissions.split if permissions.is_a? String
+
+    unless permissions.include?(permission)
+      render json: { message: 'Access is denied' }.to_json,
+             status: :unauthorized
+    end
   end
 end

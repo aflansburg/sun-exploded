@@ -99,6 +99,11 @@ docker-compose down # <- you might not need to do that actually 🤔
 docker-compose up
 ```
 
+To use `byebug` or `binding.pry` you must attach your terminal to the container.
+
+1. Find your container id with `docker ps`
+2. `docker attach <container-id>`
+
 ## The future
 
 Right now only the development build is available. I have not yet decided on how/where this will be deployed in production, and so there are no production Dockerfiles as of yet.

@@ -4,8 +4,6 @@ Rails.application.routes.draw do
   get 'scenarios', to: 'scenarios#index'
 
   # will eventually create belongs_to scenarios->users
+  get 'users/admin', to: 'users#admin'
   resources :users
-  # resources :users do
-  #   resources scenarios
-  # end
 end
