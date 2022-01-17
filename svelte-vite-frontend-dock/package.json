@@ -19,6 +19,7 @@
     "vite": "^2.7.2"
   },
   "dependencies": {
-    "@auth0/auth0-spa-js": "^1.19.3"
+    "@auth0/auth0-spa-js": "^1.19.3",
+    "page": "^1.11.6"
   }
 }
