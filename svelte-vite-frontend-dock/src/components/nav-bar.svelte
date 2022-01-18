@@ -10,6 +10,13 @@
     </div> -->
     <div class="nav-bar__tabs">
       <a
+        href="/"
+        class="nav-bar__tab"
+        class:nav-bar__tab--active={$activeRoute.path === "/"}
+      >
+        Home
+      </a>
+      <a
         href="/profile"
         class="nav-bar__tab"
         class:nav-bar__tab--active={$activeRoute.path === "/profile"}
