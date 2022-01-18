@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   web-api:
+    hostname: api
     build:
       context: ./rails-dock-api
       dockerfile: Dockerfile
@@ -14,7 +15,12 @@ services:
     tty: true
     depends_on:
       - db
+    networks:
+      exploded-net:
+        aliases:
+          - api
   web-frontend:
+    hostname: frontend
     build:
       context: ./svelte-vite-frontend-dock
       dockerfile: Dockerfile
@@ -28,6 +34,10 @@ services:
     stdin_open: true
     depends_on:
       - web-api
+    networks:
+      exploded-net:
+        aliases:
+          - frontend
   db:
     image: postgres:14-alpine
     volumes:
@@ -37,20 +47,32 @@ services:
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: rails_dock_api_dev
+    networks:
+      - exploded-net
+  reverse:
+    hostname: reverse
+    image: nginx
+    volumes:
+      - ./nginx-reverse-proxy:/etc/nginx
+      # - <path/to/your/certs>:/etc/ssl/private
+    ports:
+      - 8080:8080
+      - 443:443
+    depends_on:
+      - web-api
+      - web-frontend
+    networks:
+      exploded-net:
+        aliases:
+          - nginx
+networks:
+  exploded-net:
 #     env_file:
 #       - ./.env.db
 #   redis:
 #     image: redis:alpine
 #     ports:
 #       - 6379:6379
-#   # nginx:
-#   #   build: ./services/nginx
-#   #   volumes:
-#   #     - static_volume:/home/app/api/static
-#   #   ports:
-#   #     - 1337:80
-#   #   depends_on:
-#   #     - web
 # volumes:
 #   postgres_data_prod:
 #   static_volume:
